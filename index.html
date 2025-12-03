@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Segundo C�rebro com IA | Academia Lend�ria</title>
+    <meta name="description" content="Clareza mental é a única vantagem que seus concorrentes não conseguem copiar. Construa seu Segundo Cérebro em um fim de semana." />
+
+    <!-- MANDATORY: Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Distinctive Fonts: Space Grotesk (display) + DM Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config Inline -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+              body: ['DM Sans', 'system-ui', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+              obsidian: {
+                50: '#f5f3ff',
+                100: '#ede9fe',
+                200: '#ddd6fe',
+                300: '#c4b5fd',
+                400: '#a78bfa',
+                500: '#8b5cf6',
+                600: '#7c3aed',
+                700: '#6d28d9',
+                800: '#5b21b6',
+                900: '#4c1d95',
+              },
+              lendaria: {
+                white: '#FFFFFF',
+                soft: '#F8F8F8',
+                100: '#E8E8E8',
+                200: '#D8D8D8',
+                300: '#B8B8B8',
+                400: '#888888',
+                500: '#646464',
+                600: '#484848',
+                700: '#323232',
+                800: '#242424',
+                900: '#161616',
+                black: '#000000',
+              }
+            },
+            animation: {
+              'fade-in': 'fadeIn 1s ease-out forwards',
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'scale-in': 'scaleIn 0.6s ease-out forwards',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(30px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              scaleIn: {
+                '0%': { opacity: '0', transform: 'scale(0.9)' },
+                '100%': { opacity: '1', transform: 'scale(1)' },
+              },
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- CSS Custom Inline -->
+    <style>
+      :root {
+        --obsidian-purple: #7c3aed;
+        --obsidian-glow: rgba(124, 58, 237, 0.15);
+      }
+
+      body {
+        font-family: 'DM Sans', system-ui, sans-serif;
+        background-color: #FFFFFF;
+        color: #242424;
+        overflow-x: hidden;
+      }
+
+      .font-display { font-family: 'Space Grotesk', system-ui, sans-serif; }
+      .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+      /* Scroll sections */
+      .scroll-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      /* Obsidian purple accents - ONLY on interactive states */
+      .obsidian-accent {
+        color: var(--obsidian-purple);
+      }
+
+      .obsidian-glow {
+        box-shadow: 0 0 60px var(--obsidian-glow);
+      }
+
+      /* Graph node styling */
+      .graph-node {
+        transition: all 0.3s ease;
+      }
+
+      .graph-node:hover {
+        filter: drop-shadow(0 0 20px var(--obsidian-glow));
+      }
+
+      /* Smooth scroll snap */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Text reveal animation */
+      .reveal-text {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
+
+      .reveal-text.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Staggered reveal */
+      .stagger-1 { transition-delay: 0.1s; }
+      .stagger-2 { transition-delay: 0.2s; }
+      .stagger-3 { transition-delay: 0.3s; }
+      .stagger-4 { transition-delay: 0.4s; }
+      .stagger-5 { transition-delay: 0.5s; }
+
+      /* CTA Button */
+      .cta-button {
+        background: var(--obsidian-purple);
+        color: white;
+        padding: 16px 48px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 18px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+      }
+
+      .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+      }
+
+      /* Graph visualization */
+      .graph-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        aspect-ratio: 1;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* Progress indicator */
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #7c3aed, #a78bfa);
+        z-index: 100;
+        transition: width 0.1s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
