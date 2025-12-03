@@ -69,8 +69,9 @@ function HeroSection() {
   const [stage, setStage] = useState(0)
 
   // Sequência: cada pergunta aparece e some, depois vem o headline
+  // Timings mais lentos para melhor leitura
   useEffect(() => {
-    const timings = [1500, 2000, 2000, 2000, 2000]
+    const timings = [2000, 2500, 2500, 2500, 2500]
     let timeout: ReturnType<typeof setTimeout>
 
     const advance = (currentStage: number) => {
@@ -134,7 +135,7 @@ function HeroSection() {
               <p className="font-mono text-xs text-obsidian-500 tracking-[0.2em] uppercase mb-4">
                 Segundo Cérebro com IA
               </p>
-              <p className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-lendaria-black leading-tight">
+              <p className="font-display text-2xl md:text-4xl lg:text-5xl font-bold text-lendaria-black leading-tight">
                 Você não precisa aprender mais.
                 <br />
                 <span className="text-obsidian-600">Precisa acessar o que já sabe.</span>
@@ -803,6 +804,63 @@ function FinalCTASection() {
   )
 }
 
+// Alan Nicolas Section
+function AlanSection() {
+  const { ref, isInView } = useInView()
+
+  return (
+    <section ref={ref} className="py-24 px-6 bg-lendaria-black text-white">
+      <div className="max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="font-mono text-xs text-obsidian-400 tracking-[0.2em] uppercase mb-4">
+              Quem criou o método
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
+              Alan Nicolas
+            </h2>
+            <p className="font-body text-lendaria-400 text-lg mb-4">
+              Empresário, mentor e criador da Comunidade Lendária. Em 2021, largou tudo mesmo tendo conquistado o que muitos sonham — porque sua mente era um caos.
+            </p>
+            <p className="font-body text-lendaria-400 text-lg mb-4">
+              "Eu tinha lido mais de 100 livros. Feito dezenas de cursos. Salvado milhares de links. Mas quando eu precisava de algo específico... eu não conseguia achar."
+            </p>
+            <p className="font-body text-white text-lg font-medium">
+              Foi quando ele construiu seu Segundo Cérebro no Obsidian.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="bg-lendaria-900 rounded-2xl p-8 border border-lendaria-700"
+          >
+            <div className="space-y-8">
+              <div>
+                <p className="font-mono text-xs text-lendaria-500 mb-1">Notas no vault</p>
+                <p className="font-display text-5xl font-bold text-white">10.000+</p>
+              </div>
+              <div>
+                <p className="font-mono text-xs text-lendaria-500 mb-1">Anos de conhecimento</p>
+                <p className="font-display text-5xl font-bold text-white">10+</p>
+              </div>
+              <div>
+                <p className="font-mono text-xs text-lendaria-500 mb-1">Tempo para encontrar qualquer coisa</p>
+                <p className="font-display text-5xl font-bold text-obsidian-400">&lt;5s</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // Footer
 function Footer() {
   return (
@@ -859,6 +917,7 @@ export default function App() {
       <SocialProofSection />
       <OfferSection />
       <FinalCTASection />
+      <AlanSection />
       <Footer />
     </main>
   )
