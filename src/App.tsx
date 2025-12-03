@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import {
   Brain,
   Zap,
@@ -68,11 +68,22 @@ function ProgressBar() {
 function HeroSection() {
   const [stage, setStage] = useState(0)
 
+  // Sequência: cada pergunta aparece e some, depois vem o headline
   useEffect(() => {
-    const timings = [600, 1800, 3200, 4800, 6200]
-    timings.forEach((time, index) => {
-      setTimeout(() => setStage(index + 1), time)
-    })
+    const timings = [1500, 2000, 2000, 2000, 2000]
+    let timeout: ReturnType<typeof setTimeout>
+
+    const advance = (currentStage: number) => {
+      if (currentStage < 5) {
+        timeout = setTimeout(() => {
+          setStage(currentStage + 1)
+          advance(currentStage + 1)
+        }, timings[currentStage])
+      }
+    }
+
+    advance(0)
+    return () => clearTimeout(timeout)
   }, [])
 
   return (
@@ -81,88 +92,60 @@ function HeroSection() {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
 
       <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
-        <AnimatePresence mode="wait">
-          {stage >= 1 && (
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="font-display text-xl md:text-2xl text-lendaria-700"
-            >
+        {/* Perguntas - aparecem uma de cada vez e somem */}
+        <div className={`transition-all duration-1000 ${stage >= 1 && stage < 2 ? 'opacity-100' : 'opacity-0'}`}>
+          {stage >= 1 && stage < 2 && (
+            <p className="font-display text-2xl md:text-4xl text-lendaria-700 leading-relaxed">
               Quantos projetos você começou esse ano?
-            </motion.p>
+            </p>
           )}
-        </AnimatePresence>
+        </div>
 
-        <AnimatePresence mode="wait">
-          {stage >= 2 && (
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="font-display text-xl md:text-2xl text-lendaria-600 mt-4"
-            >
+        <div className={`transition-all duration-1000 ${stage >= 2 && stage < 3 ? 'opacity-100' : 'opacity-0'}`}>
+          {stage >= 2 && stage < 3 && (
+            <p className="font-display text-2xl md:text-4xl text-lendaria-600 leading-relaxed">
               Quantos você terminou?
-            </motion.p>
+            </p>
           )}
-        </AnimatePresence>
+        </div>
 
-        <AnimatePresence mode="wait">
-          {stage >= 3 && (
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="font-display text-xl md:text-2xl text-lendaria-500 mt-4"
-            >
+        <div className={`transition-all duration-1000 ${stage >= 3 && stage < 4 ? 'opacity-100' : 'opacity-0'}`}>
+          {stage >= 3 && stage < 4 && (
+            <p className="font-display text-2xl md:text-4xl text-lendaria-500 leading-relaxed">
               Qual foi a última coisa que você aprendeu?
-            </motion.p>
+            </p>
           )}
-        </AnimatePresence>
+        </div>
 
-        <AnimatePresence mode="wait">
-          {stage >= 4 && (
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="font-display text-xl md:text-2xl text-lendaria-400 mt-4"
-            >
-              Consegue lembrar agora?
-            </motion.p>
+        <div className={`transition-all duration-1000 ${stage >= 4 && stage < 5 ? 'opacity-100' : 'opacity-0'}`}>
+          {stage >= 4 && stage < 5 && (
+            <p className="font-display text-2xl md:text-4xl text-lendaria-800 leading-relaxed">
+              Consegue lembrar <span className="font-bold">agora</span>?
+            </p>
           )}
-        </AnimatePresence>
+        </div>
 
-        <AnimatePresence mode="wait">
+        {/* Headline - aparece no final */}
+        <div className={`transition-all duration-1000 ${stage >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {stage >= 5 && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="mt-12"
-            >
+            <>
+              <LogoDiamante className="w-16 h-16 mx-auto mb-10" fill="#000" />
+
               <p className="font-mono text-xs text-obsidian-500 tracking-[0.2em] uppercase mb-4">
                 Segundo Cérebro com IA
               </p>
-              <p className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-lendaria-black leading-tight">
+              <p className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-lendaria-black leading-tight">
                 Você não precisa aprender mais.
                 <br />
                 <span className="text-obsidian-600">Precisa acessar o que já sabe.</span>
               </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
-        {stage >= 5 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.8 }}
-            className="mt-16"
-          >
-            <ChevronDown className="w-8 h-8 text-lendaria-400 mx-auto animate-bounce" />
-          </motion.div>
-        )}
+              <div className="mt-16">
+                <ChevronDown className="w-8 h-8 text-lendaria-400 mx-auto animate-bounce" />
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </section>
   )
